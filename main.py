@@ -1,7 +1,6 @@
 import time
 
-# Get time and convert it to int value, with error checker
-
+# Get time and convert it to int value in seconds, with error checker
 
 def get_time(vara):
     alarm_input = input(f"Enter time for {vara} in minutes: ")
@@ -22,10 +21,27 @@ def configure_all():
     config["long break"] = get_time("Long Break")
     return config
     
+def menu():
+    print("Pomodoro menu:")
+    print("1. Start pomodoro")
+    print("2. Check Pomodoro times")
+    print("3. Configure all Pomodoro times")
+    print("4. Check Statistics")
+    print("5. About")
+    selection = input("Select an option: ")
+    if selection == 1:
+        return#TODO implement function
+    elif selection == 2:
+        return#TODO check if there's config file and print current config, if not ask if want to configure
+    elif selection == 3:
+        return#TODO configure Pomodoro times
+    elif selection == 4:
+        return#TODO implement log saver and statistics report
+    elif selection ==5:
+        print("Pomodoro terminal, coded by Yuhuyu.")
+
 
 # pomodoro temporal function
-
-
 def start_pomodoro():
     time_tuple = configure()
     block = 1
@@ -45,7 +61,3 @@ def start_pomodoro():
             print(f"Long break {time_tuple[2]} minutes")
             time.sleep(time_tuple[2])
             break
-
-
-x = configure_all()
-print(x)
