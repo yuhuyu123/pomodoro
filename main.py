@@ -14,18 +14,20 @@ def get_time(vara):
             print("Oops! the input is not a number in minutes, try again...")
 
 
-# Calls the function get_time 3 times and return a tuple with the values for different times
-def pomodoro():
-    study_time = get_time("Study Time")
-    short_break = get_time("Short_Break")
-    long_break = get_time("Long Break")
-    return study_time, short_break, long_break
+# config function that return pomodoro variable as dictionary
+def configure_all():
+    config = {}
+    config["pomodoro time"] = get_time("Study Time")
+    config["short break"] = get_time("Short_Break")
+    config["long break"] = get_time("Long Break")
+    return config
+    
 
-# start the pomodoro input argument is a tupple containing the 3 values for study time, short and long break
+# pomodoro temporal function
 
 
 def start_pomodoro():
-    time_tuple = pomodoro()
+    time_tuple = configure()
     block = 1
 
     while True:
@@ -45,4 +47,5 @@ def start_pomodoro():
             break
 
 
-start_pomodoro()
+x = configure_all()
+print(x)
