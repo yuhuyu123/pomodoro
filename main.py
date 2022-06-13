@@ -1,4 +1,8 @@
+import pickle
+from os.path import exists
 import time
+
+from debugpy import configure
 
 # Get time and convert it to int value in seconds, with error checker
 
@@ -19,26 +23,50 @@ def configure_all():
     config["pomodoro time"] = get_time("Study Time")
     config["short break"] = get_time("Short_Break")
     config["long break"] = get_time("Long Break")
-    return config
+    with open('pomoconfig.pkl','wb+') as f:
+        pickle.dump(config, f)
+    
     
 def menu():
-    print("Pomodoro menu:")
+    print("\nPomodoro menu:")
     print("1. Start pomodoro")
     print("2. Check Pomodoro times")
     print("3. Configure all Pomodoro times")
     print("4. Check Statistics")
     print("5. About")
-    selection = input("Select an option: ")
+    selection = input("\nSelect an option: ")
+    while True:
+        try:
+            selection = int(selection)
+
+            if selection >= 1 and selection <= 5:
+                break
+            else:
+                selection = input("Not a valid option, please select a valid option between 1-5: ")
+        except ValueError:
+            selection = input("Not a valid option, please select a valid option: ")
     if selection == 1:
+        print("\nStill not implemented")
         return#TODO implement function
     elif selection == 2:
-        return#TODO check if there's config file and print current config, if not ask if want to configure
+        if exists("pomoconfig.pkl"):
+            with open('pomoconfig.pkl', 'rb') as f:
+                config = pickle.load(f)
+                print("\n")
+                print(config)
+        else:
+            selection = input("\nDo you want to configure pomodoro? y/n: ")
+            if selection == "y":
+                configure_all()
+            else:
+                return            
+        
     elif selection == 3:
-        return#TODO configure Pomodoro times
+        configure_all()
     elif selection == 4:
         return#TODO implement log saver and statistics report
-    elif selection ==5:
-        print("Pomodoro terminal, coded by Yuhuyu.")
+    elif selection == 5:
+        print("\nPomodoro terminal, coded by Yuhuyu.")
 
 
 # pomodoro temporal function
@@ -61,3 +89,6 @@ def start_pomodoro():
             print(f"Long break {time_tuple[2]} minutes")
             time.sleep(time_tuple[2])
             break
+
+while True:
+    menu()
