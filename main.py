@@ -28,13 +28,16 @@ def configure_all():
     
     
 def menu():
+
     print("\nPomodoro menu:")
-    print("1. Start pomodoro")
+    print("\n1. Start pomodoro")
     print("2. Check Pomodoro times")
     print("3. Configure all Pomodoro times")
     print("4. Check Statistics")
     print("5. About")
+
     selection = input("\nSelect an option: ")
+
     while True:
         try:
             selection = int(selection)
@@ -45,9 +48,17 @@ def menu():
                 selection = input("Not a valid option, please select a valid option between 1-5: ")
         except ValueError:
             selection = input("Not a valid option, please select a valid option: ")
+
     if selection == 1:
-        print("\nStill not implemented")
-        return#TODO implement function
+            if exists("pomoconfig.pkl"):
+                with open('pomoconfig.pkl', 'rb') as f:
+                    config = pickle.load(f)
+                start_pomodoro(config)
+                
+            else:
+                selection = input("\nPomodoro not configured, do you want to configure pomodoro? y/n: ")
+                if selection == "y":
+                    configure_all()
     elif selection == 2:
         if exists("pomoconfig.pkl"):
             with open('pomoconfig.pkl', 'rb') as f:
@@ -55,7 +66,7 @@ def menu():
                 print("\n")
                 print(config)
         else:
-            selection = input("\nDo you want to configure pomodoro? y/n: ")
+            selection = input("\nPomodoro not configured, do you want to configure pomodoro? y/n: ")
             if selection == "y":
                 configure_all()
             else:
@@ -63,32 +74,37 @@ def menu():
         
     elif selection == 3:
         configure_all()
+
     elif selection == 4:
+        print("\n Still not implemented")
         return#TODO implement log saver and statistics report
     elif selection == 5:
         print("\nPomodoro terminal, coded by Yuhuyu.")
 
 
 # pomodoro temporal function
-def start_pomodoro():
-    time_tuple = configure()
-    block = 1
-
+def start_pomodoro(config):
     while True:
+        block = 1
+        pomo = config["pomodoro time"]
+        short = config["short break"]
+        long = config["long break"]
 
-        print(f"{block} pomodoro")
-        time.sleep(time_tuple[0])
-        
-        if block != 4:
+        while True:
 
-            print(f"short break {time_tuple[1]} minutes")
-            time.sleep(time_tuple[1])
-            block += 1
-        else:
-                   
-            print(f"Long break {time_tuple[2]} minutes")
-            time.sleep(time_tuple[2])
-            break
+            print(f"{block} pomodoro {pomo/60} minutes")
+            time.sleep(pomo)
+                    
+            if block != 4:
+
+                print(f"short break {short/60} minutes")
+                time.sleep(short)
+                block += 1
+            else:
+                    
+                print(f"Long break {long/60} minutes")
+                time.sleep(long)
+                break
 
 while True:
     menu()
