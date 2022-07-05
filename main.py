@@ -19,7 +19,7 @@ def get_time(vara):
 def configure_all():
     config = {}
     config["pomodoro time"] = get_time("Study Time")
-    config["short break"] = get_time("Short_Break")
+    config["short break"] = get_time("Short Break")
     config["long break"] = get_time("Long Break")
     
     with open('pomoconfig.pkl', 'wb+') as f:
@@ -27,6 +27,51 @@ def configure_all():
 
     print("\nPomodoro succesfully configured")
     time.sleep(2)
+
+# Pomodoro temporal function
+# TODO Allow stop/resume/going back to menu
+# TODO Implement log saving for statistics 
+def start_pomodoro(config):
+    counter = {}
+    counter["pomodoros"] = 0
+    while True:
+        sound_pause = "pause.mp3"
+        sound_pomo  = "pomo.mp3"
+        block = 1
+        pomo = config["pomodoro time"]
+        short = config["short break"]
+        long = config["long break"]
+
+        while True:
+
+            playsound(sound_pomo)
+            print(f"{block} pomodoro {pomo/60} minutes")
+            i = 0
+
+            while i < pomo:
+                time.sleep(1)
+                i+=1
+                print(i, " seconds")
+
+            #time.sleep(pomo)
+
+            counter["pomodoros"] += 1
+
+            with open('logcount.pkl', 'wb+') as f:
+                pickle.dump(counter, f)
+
+
+            if block != 4:
+                playsound(sound_pause)
+                print(f"short break {short/60} minutes")
+                time.sleep(short)
+                block += 1
+                
+            else:
+                playsound(sound_pause)
+                print(f"Long break {long/60} minutes")
+                time.sleep(long)
+                break
 
 # Main menu
 def menu():
@@ -94,35 +139,7 @@ def menu():
         time.sleep(3)
 
 
-# Pomodoro temporal function
-# TODO Allow stop/resume/going back to menu
-# TODO Implement log saving for statistics 
-def start_pomodoro(config):
-    while True:
-        sound_pause = "sound.mp3"
-        sound_pomo  = "pomo.mp3"
-        block = 1
-        pomo = config["pomodoro time"]
-        short = config["short break"]
-        long = config["long break"]
 
-        while True:
-            playsound(sound_pomo)
-            print(f"{block} pomodoro {pomo/60} minutes")
-            time.sleep(pomo)
-
-
-            if block != 4:
-                playsound(sound_pause)
-                print(f"short break {short/60} minutes")
-                time.sleep(short)
-                block += 1
-                
-            else:
-                playsound(sound_pause)
-                print(f"Long break {long/60} minutes")
-                time.sleep(long)
-                break
 
 
 while True:
